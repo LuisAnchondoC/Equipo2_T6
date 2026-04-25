@@ -1,14 +1,8 @@
-# 🧠 Perceptrón LMS — ESP32 + FreeRTOS
+# Perceptrón LMS embebido en ESP32 + FreeRTOS
 
-> Nodo inteligente de clasificación binaria en tiempo real. Un perceptrón simple entrenado con el algoritmo LMS (Least Mean Squares) corre sobre un ESP32 con FreeRTOS, clasifica señales analógicas de potenciómetros y refleja su predicción en un LED.
+> Un perceptrón simple entrenado con el algoritmo LMS (Least Mean Squares) corre sobre un ESP32 con FreeRTOS, clasifica señales analógicas de potenciómetros y refleja su predicción en un LED.
 
 <br>
-
-![ESP32](https://img.shields.io/badge/Hardware-ESP32-003D7A?style=flat-square&logo=espressif&logoColor=white)
-![Arduino](https://img.shields.io/badge/Framework-Arduino-00979D?style=flat-square&logo=arduino&logoColor=white)
-![FreeRTOS](https://img.shields.io/badge/RTOS-FreeRTOS-brightgreen?style=flat-square)
-![C++](https://img.shields.io/badge/Language-C++17-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
 ---
 
@@ -31,7 +25,7 @@
 
 ## Descripción
 
-Este proyecto implementa un **perceptrón simple de N entradas** entrenado con el algoritmo **LMS (Widrow-Hoff)** directamente en un microcontrolador ESP32, sin PC, sin Python, sin librerías de ML externas.
+Este proyecto implementa un **perceptrón simple de N entradas** entrenado con el algoritmo **LMS** directamente en un microcontrolador ESP32, sin PC ni librerías de ML externas.
 
 El usuario configura el sistema por puerto serial al arranque:
 
@@ -45,13 +39,12 @@ Al presionar el botón, el sistema entra en modo **RUN**: lee los potenciómetro
 
 ## Características
 
-- **Entrenamiento en dispositivo** — el algoritmo LMS corre completamente en el ESP32, sin conexión a un servidor externo.
-- **N entradas configurable** — soporta de 2 a 5 potenciómetros como entradas analógicas binarizadas.
-- **Tabla personalizada** — además de AND y OR, el usuario puede definir cualquier función booleana de N variables ingresando las salidas por Serial.
-- **FreeRTOS** — tres tareas concurrentes (botón, inferencia, monitor) con prioridades diferenciadas y mutex para variables compartidas.
-- **Arquitectura por capas** — HAL / ML / HMI / RTOS claramente separados; un único `BSP.h` centraliza pines, constantes y prototipos.
-- **Anti-rebote** — detección de flancos con ventana de 200 ms para el botón.
-- **Código exhaustivamente comentado** — cada función, cada línea explicada pensando en quien aprende RTOS y ML embebido.
+- **Entrenamiento en dispositivo:**  el algoritmo LMS corre completamente en el ESP32, sin conexión a un servidor externo.
+- **N entradas configurable:** soporta de 2 a 5 potenciómetros como entradas analógicas binarizadas.
+- **Tabla personalizada:**  además de AND y OR, el usuario puede definir cualquier función booleana de N variables ingresando las salidas por Serial.
+- **FreeRTOS:** tres tareas concurrentes (botón, inferencia, monitor) con prioridades diferenciadas y mutex para variables compartidas.
+- **Arquitectura por capas:** HAL / ML / HMI / RTOS claramente separados; un único `BSP.h` centraliza pines, constantes y prototipos.
+- **Anti-rebote:** detección de flancos con ventana de 200 ms para el botón.
 
 ---
 
@@ -67,29 +60,6 @@ Al presionar el botón, el sistema entra en modo **RUN**: lee los potenciómetro
 
 ---
 
-## Diagrama de conexiones
-
-```
-ESP32                Componentes
-─────────────────────────────────────────────────────────
-GPIO 34  ──────────── Potenciómetro 1  (pin central)
-GPIO 35  ──────────── Potenciómetro 2  (pin central)
-GPIO 32  ──────────── Potenciómetro 3  (pin central, opcional)
-GPIO 33  ──────────── Potenciómetro 4  (pin central, opcional)
-GPIO 36  ──────────── Potenciómetro 5  (pin central, opcional)
-
-GPIO  4  ──[220 Ω]─── LED Estado   (apagado=OFF, encendido=RUN)
-GPIO  2  ──[220 Ω]─── LED Salida   (refleja predicción del perceptrón)
-
-GPIO 18  ──────────── Botón (otro extremo a GND; pull-up interna activa)
-
-3.3 V    ──────────── Extremo VCC de todos los potenciómetros
-GND      ──────────── Extremo GND de todos los potenciómetros
-```
-
-> **Nota:** Los GPIO 34, 35 y 36 son de **solo entrada** en el ESP32 y no tienen pull-up interno. No los uses como salida.
-
----
 
 ## Estructura del proyecto
 
@@ -105,9 +75,6 @@ perceptron-esp32/
 │   ├── HMI.cpp         # Interfaz hombre-máquina: configuración interactiva por Serial
 │   ├── ML.cpp          # Perceptrón LMS: init, generación de tabla, train, predict, verify
 │   └── RTOS.cpp        # Tareas FreeRTOS: botón, inferencia ML, impresión ADC
-│
-├── docs/
-│   └── reporte_sistema.pdf   # Reporte técnico con diagramas a bloques
 │
 └── README.md
 ```
@@ -152,32 +119,6 @@ El firmware se organiza en cuatro capas bien diferenciadas:
   ```
 - Placa seleccionada: **ESP32 Dev Module**
 
-### Instalación
-
-```bash
-# Clonar el repositorio
-git clone https://github.com/tu-usuario/perceptron-esp32.git
-cd perceptron-esp32
-```
-
-Abrir `main/main.ino` en el Arduino IDE. El IDE cargará automáticamente todos los `.cpp` de la misma carpeta.
-
-### Compilar y cargar
-
-```
-Herramientas → Placa → ESP32 Dev Module
-Herramientas → Puerto → COMx (Windows) o /dev/ttyUSB0 (Linux/Mac)
-Sketch → Subir   (Ctrl + U)
-```
-
-### Configuración en el Monitor Serial
-
-```
-Herramientas → Monitor Serial
-Velocidad: 115200 baudios
-```
-
----
 
 ## Uso por el Monitor Serial
 
