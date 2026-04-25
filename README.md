@@ -11,7 +11,6 @@
 - [Descripción](#descripción)
 - [Características](#características)
 - [Hardware requerido](#hardware-requerido)
-- [Diagrama de conexiones](#diagrama-de-conexiones)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Uso por el Monitor Serial](#uso-por-el-monitor-serial)
 - [Parámetros configurables](#parámetros-configurables)
