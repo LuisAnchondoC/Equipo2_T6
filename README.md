@@ -13,8 +13,6 @@
 - [Hardware requerido](#hardware-requerido)
 - [Diagrama de conexiones](#diagrama-de-conexiones)
 - [Estructura del proyecto](#estructura-del-proyecto)
-- [Arquitectura de software](#arquitectura-de-software)
-- [Primeros pasos](#primeros-pasos)
 - [Uso por el Monitor Serial](#uso-por-el-monitor-serial)
 - [Parámetros configurables](#parámetros-configurables)
 - [Cómo funciona el perceptrón](#cómo-funciona-el-perceptrón)
