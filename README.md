@@ -1,7 +1,8 @@
 # Perceptrón LMS embebido en ESP32 + FreeRTOS
 
 > Un perceptrón simple entrenado con el algoritmo LMS (Least Mean Squares) corre sobre un ESP32 con FreeRTOS, clasifica señales analógicas de potenciómetros y refleja su predicción en un LED.
-
+Alumnos        : Luis Adrian Anchondo Carreón (22061088)
+               : Luis Adrian Rodriguez Vargas (22061021)
 <br>
 
 ---
