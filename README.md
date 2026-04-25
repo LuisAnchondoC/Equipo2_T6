@@ -66,7 +66,7 @@ Al presionar el botón, el sistema entra en modo **RUN**: lee los potenciómetro
 ```
 perceptron-esp32/
 │
-├── main/
+├── Equipo2_T6/
 │   ├── main.ino        # Punto de entrada: setup() y loop()
 │   ├── BSP.h           # Board Support Package: pines, constantes, tipos, prototipos
 │   ├── ADC.cpp         # HAL: lectura y binarización de potenciómetros
@@ -78,46 +78,6 @@ perceptron-esp32/
 │
 └── README.md
 ```
-
----
-
-## Arquitectura de software
-
-El firmware se organiza en cuatro capas bien diferenciadas:
-
-```
-┌──────────────────────────────────────────────────────┐
-│                     BSP.h                            │  ← contrato global
-│  pines · constantes · tipos · prototipos             │
-└──────────────────────────────────────────────────────┘
-         │                │               │
-┌────────▼───────┐  ┌─────▼──────┐  ┌────▼──────────┐
-│   HAL           │  │   ML       │  │   HMI          │
-│  ADC.cpp        │  │  ML.cpp    │  │  HMI.cpp       │
-│  GPIO.cpp       │  │            │  │                │
-│  PRINT.cpp      │  │  Perceptrón│  │  Config serial │
-└────────┬────────┘  │  LMS       │  │  (setup())     │
-         │           └─────┬──────┘  └────────────────┘
-         │                 │
-┌────────▼─────────────────▼──────────────────────────┐
-│                  RTOS.cpp                            │
-│  Task_Button (P3) · Task_MLInference (P2)            │
-│  Task_ADCPrint (P1) · Mutex g_xModeMutex             │
-└──────────────────────────────────────────────────────┘
-```
-
----
-
-## Primeros pasos
-
-### Requisitos
-
-- [Arduino IDE](https://www.arduino.cc/en/software) 1.8+ o [Arduino CLI](https://arduino.github.io/arduino-cli/)
-- Soporte para ESP32 en el gestor de placas:
-  ```
-  https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-  ```
-- Placa seleccionada: **ESP32 Dev Module**
 
 
 ## Uso por el Monitor Serial
@@ -172,7 +132,7 @@ Al elegir la opción `3`, el sistema solicita la salida para cada combinación:
   [1,1]  →  0    (guardado: 0)
 ```
 
-> ⚠️ Si defines una función **no linealmente separable** (como XOR), el perceptrón simple no podrá aprenderla. El sistema lo notificará al alcanzar el límite de épocas y continuará con la mejor aproximación encontrada.
+> Si se define una función **no linealmente separable** (como XOR), el perceptrón simple no podrá aprenderla. El sistema lo notificará al alcanzar el límite de épocas y continuará con la mejor aproximación encontrada.
 
 ### En modo RUN
 
@@ -253,6 +213,4 @@ La variable `g_sysMode` es protegida por el mutex `g_xModeMutex` cuando `Task_Bu
 
 ---
 
-<p align="center">
-  Hecho con ☕ y muchas épocas de entrenamiento · ITCH · Laboratorio ML
-</p>
+
